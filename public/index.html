@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <h2>Create or Join a Group</h2>
+
+        <div id="create-group" class="form-container">
+            <h3>Create Group</h3>
+            <input type="text" id="group-name" placeholder="Group Name" required>
+            <input type="text" id="group-pin" placeholder="Group PIN" required>
+            <button onclick="createGroup()">Create Group</button>
+        </div>
+
+        <div id="join-group" class="form-container">
+            <h3>Join Group</h3>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="text" id="join-pin" placeholder="Group PIN" required>
+            <button onclick="joinGroup()">Join Group</button>
+        </div>
+
+        <div id="chat">
+            <h2 id="group-title"></h2>
+            <ul id="messages"></ul>
+            <input id="message" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+            <button id="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        function createGroup() {
+            const groupName = document.getElementById('group-name').value;
+            const pin = document.getElementById('group-pin').value;
+            socket.emit('createGroup', { groupName, pin });
+        }
+
+        function joinGroup() {
+            const username = document.getElementById('username').value;
+            const pin = document.getElementById('join-pin').value;
+            socket.emit('joinGroup', { username, pin });
+        }
+
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            const pin = document.getElementById('group-title').dataset.pin;
+            const username = document.getElementById('username').value;
+            socket.emit('sendMessage', { pin, message, username });
+            document.getElementById('message').value = '';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        socket.on('groupCreated', ({ groupName, pin }) => {
+            alert(`Group ${groupName} created with PIN ${pin}`);
+        });
+
+        socket.on('joinedGroup', ({ groupName, pin }) => {
+            document.getElementById('create-group').style.display = 'none';
+            document.getElementById('join-group').style.display = 'none';
+            document.getElementById('chat').style.display = 'block';
+            document.getElementById('group-title').textContent = `Group: ${groupName}`;
+            document.getElementById('group-title').dataset.pin = pin;
+        });
+
+        socket.on('message', ({ username, text }) => {
+            const messages = document.getElementById('messages');
+            const messageItem = document.createElement('li');
+            messageItem.textContent = `${username}: ${text}`;
+            messages.appendChild(messageItem);
+        });
+
+        socket.on('error', (message) => {
+            alert(message);
+        });
+    </script>
+</body>
+</html>

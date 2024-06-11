@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+#container {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#container:hover {
+    transform: scale(1.02);
+}
+
+h2 {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 16px;
+    margin: 0;
+    text-align: center;
+    font-size: 1.5rem;
+    animation: fadeInDown 0.5s;
+}
+
+h3 {
+    margin: 16px 0;
+    font-size: 1.2rem;
+    color: #007bff;
+}
+
+form, #chat {
+    padding: 16px;
+}
+
+input[type="text"], button {
+    width: calc(100% - 32px);
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus, button:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+#chat {
+    display: none;
+    padding: 16px;
+    animation: fadeInUp 0.5s;
+}
+
+#messages {
+    list-style-type: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    padding: 10px;
+}
+
+#messages li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    background: #f9f9f9;
+    border-radius: 5px;
+    animation: slideIn 0.3s ease-out;
+}
+
+#message-box {
+    display: flex;
+    align-items: center;
+}
+
+#message {
+    width: calc(100% - 90px);
+    padding: 10px;
+    margin-right: 10px;
+}
+
+#send-button {
+    width: 70px;
+    padding: 10px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInUp 0.5s;
+}
+
+.form-container > input, .form-container > button {
+    width: 100%;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
